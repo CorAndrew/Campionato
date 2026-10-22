@@ -8,7 +8,7 @@ namespace Campionato
     public class RepositoryPartite : IRepository<Partita>
     {
         private List<Partita> _partite;
-        private readonly string _filePath;
+        private string _filePath;
 
         public RepositoryPartite(string filePath = "partite.json")
         {

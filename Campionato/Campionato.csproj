@@ -82,6 +82,7 @@
     <Compile Include="IStampabile.cs" />
     <Compile Include="Partita.cs" />
     <Compile Include="PartitaEliminazione.cs" />
+    <Compile Include="PartitaFinale.cs" />
     <Compile Include="PartitaGirone.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

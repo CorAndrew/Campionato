@@ -4,20 +4,39 @@ namespace Campionato
 {
     public class PartitaEliminazione : Partita
     {
-        public string DettaglioRigori { get; set; }
+        public int RigoriCasa { get; set; }
+        public int RigoriOspite { get; set; }
 
-        public PartitaEliminazione(int giornata, string casa, string ospite, string risultato, string dettaglioRigori) : base(giornata, casa, ospite, risultato)
+        public PartitaEliminazione(int giornata, string casa, string ospite, string risultato, DateTime data, int rigoriCasa, int rigoriOspite) : base(giornata, casa, ospite, risultato, data)
         {
-            DettaglioRigori = dettaglioRigori;
+            RigoriCasa = rigoriCasa;
+            RigoriOspite = rigoriOspite;
+        }
+
+        public override string CalcolaVincitore()
+        {
+            int casa = GetGolCasa();
+            int ospite = GetGolOspite();
+
+            if (casa > ospite) return Casa;
+            if (ospite > casa) return Ospite;
+
+            if (RigoriCasa >= 0 && RigoriOspite >= 0)
+            {
+                if (RigoriCasa > RigoriOspite) return Casa;
+                if (RigoriOspite > RigoriCasa) return Ospite;
+            }
+
+            return null;
         }
 
         public override string Descrizione()
         {
             string baseDesc = base.Descrizione();
-            if (!string.IsNullOrEmpty(DettaglioRigori))
+            if (CalcolaEsito() == Esito.Pareggio && RigoriCasa >= 0 && RigoriOspite >= 0)
             {
                 string vincitore = CalcolaVincitore();
-                return $"{baseDesc} ({DettaglioRigori}, passa {vincitore})";
+                return $"{baseDesc} {RigoriCasa}-{RigoriOspite}, vince {vincitore}";
             }
             return baseDesc;
         }

@@ -18,12 +18,10 @@ namespace Campionato
         {
             NomeSquadra = nomeSquadra;
         }
-
-        // Due righe sono uguali se riguardano la stessa squadra
-        public bool Equals(StatisticheSquadra other)
+        public bool Equals(StatisticheSquadra altra)
         {
-            if (other == null) return false;
-            return string.Equals(NomeSquadra, other.NomeSquadra, StringComparison.OrdinalIgnoreCase);
+            if (altra == null) return false;
+            return string.Equals(NomeSquadra, altra.NomeSquadra);
         }
 
         public override bool Equals(object obj)
@@ -31,25 +29,20 @@ namespace Campionato
             return Equals(obj as StatisticheSquadra);
         }
 
-
-        public int CompareTo(StatisticheSquadra other)
+        public int CompareTo(StatisticheSquadra altra)
         {
-            if (other == null) return 1;
+            if (altra == null) return 1;
 
-            // ordinamento punti decrescente
-            int compPunti = other.Punti.CompareTo(this.Punti);
+            int compPunti = altra.Punti.CompareTo(this.Punti);
             if (compPunti != 0) return compPunti;
 
-            // differenza reti
-            int compDr = other.DifferenzaReti.CompareTo(this.DifferenzaReti);
+            int compDr = altra.DifferenzaReti.CompareTo(this.DifferenzaReti);
             if (compDr != 0) return compDr;
 
-            // Gol fatti
-            int compGf = other.GolFatti.CompareTo(this.GolFatti);
+            int compGf = altra.GolFatti.CompareTo(this.GolFatti);
             if (compGf != 0) return compGf;
 
-            // Nome squadra
-            return string.Compare(NomeSquadra, other.NomeSquadra, StringComparison.OrdinalIgnoreCase);
+            return string.Compare(NomeSquadra, altra.NomeSquadra);
         }
     }
 }

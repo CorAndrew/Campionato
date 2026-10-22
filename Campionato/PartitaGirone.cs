@@ -4,14 +4,14 @@ namespace Campionato
 {
     public class PartitaGirone : Partita
     {
-        public PartitaGirone(int giornata, string casa, string ospite, string risultato) : base(giornata, casa, ospite, risultato)
+        public PartitaGirone(int giornata, string casa, string ospite, string risultato, DateTime data) : base (giornata, casa, ospite, risultato, data)
         {
         }
 
         public int PuntiPer(string squadra)
         {
-            bool isCasa = string.Equals(squadra, Casa, StringComparison.OrdinalIgnoreCase);
-            bool isOspite = string.Equals(squadra, Ospite, StringComparison.OrdinalIgnoreCase);
+            bool isCasa = string.Equals(squadra, Casa);
+            bool isOspite = string.Equals(squadra, Ospite);
 
             if (!isCasa && !isOspite) return 0;
 

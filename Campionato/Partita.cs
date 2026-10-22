@@ -2,22 +2,23 @@
 
 namespace Campionato
 {
-    public class Partita : IComparable<Partita>, IRisultato, IStampabile
+    public class Partita : IComparable<Partita>, IEquatable<Partita>, IRisultato, IStampabile
     {
         public int Giornata { get; set; }
         public string Casa { get; set; }
         public string Ospite { get; set; }
         public string Risultato { get; set; }
+        public DateTime Data { get; set; }
 
-        // Criterio di ordinamento
         public static string Criterio = "naturale";
 
-        public Partita(int giornata, string casa, string ospite, string risultato)
+        public Partita(int giornata, string casa, string ospite, string risultato, DateTime data)
         {
             Giornata = giornata;
             Casa = casa;
             Ospite = ospite;
             Risultato = risultato;
+            Data = data;
         }
 
         public int GetGolCasa()
@@ -45,7 +46,7 @@ namespace Campionato
 
         public int CalcolaScarto()
         {
-            return (GetGolCasa() - GetGolOspite());
+            return Math.Abs(GetGolCasa() - GetGolOspite());
         }
 
         public Esito CalcolaEsito()
@@ -57,43 +58,38 @@ namespace Campionato
             return Esito.Pareggio;
         }
 
-        public string CalcolaVincitore()
+        public virtual string CalcolaVincitore()
         {
             int casa = GetGolCasa();
             int ospite = GetGolOspite();
             if (casa > ospite) return Casa;
             if (ospite > casa) return Ospite;
-            return null; // Pareggio
+            return string.Empty;
         }
 
         public virtual string Descrizione()
         {
-            return $"Giornata {Giornata} - {Casa} vs {Ospite} | Risultato: {Risultato}";
+            return $"{Data.ToShortDateString()} - Giornata {Giornata} - {Casa} vs {Ospite} | Risultato: {Risultato}";
+        }
+
+        // Metodo di IEquatable
+        public bool Equals(Partita altra)
+        {
+            if (altra == null) return false;
+            return Giornata == altra.Giornata &&
+                   string.Equals(Casa, altra.Casa, StringComparison.OrdinalIgnoreCase) &&
+                   string.Equals(Ospite, altra.Ospite, StringComparison.OrdinalIgnoreCase);
         }
 
         public override bool Equals(object obj)
         {
-            Partita altra = obj as Partita;
-
-            if (altra is null)
-                return false;
-
-            if (Giornata != altra.Giornata)
-                return false;
-
-            if (!string.Equals(Casa, altra.Casa, StringComparison.OrdinalIgnoreCase))
-                return false;
-
-            if (!string.Equals(Ospite, altra.Ospite, StringComparison.OrdinalIgnoreCase))
-                return false;
-
-            return true;
+            return Equals(obj as Partita);
         }
 
         public static bool operator ==(Partita a, Partita b)
         {
-            if (a is null && b is null) return true;
-            if (a is null || b is null) return false;
+            if (object.ReferenceEquals(a, null) && object.ReferenceEquals(b, null)) return true;
+            if (object.ReferenceEquals(a, null) || object.ReferenceEquals(b, null)) return false;
             return a.Equals(b);
         }
 
@@ -102,6 +98,7 @@ namespace Campionato
             return !(a == b);
         }
 
+        // Metodo di IComparable
         public int CompareTo(Partita altra)
         {
             if (altra == null) return 1;
@@ -118,7 +115,8 @@ namespace Campionato
             if (Criterio == "casaZA")
                 return string.Compare(altra.Casa, Casa, StringComparison.OrdinalIgnoreCase);
 
-
+            if (Criterio == "data")
+                return Data.CompareTo(altra.Data);
 
             if (Giornata != altra.Giornata)
                 return Giornata.CompareTo(altra.Giornata);
