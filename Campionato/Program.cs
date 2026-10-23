@@ -246,11 +246,8 @@ namespace Campionato
             foreach (StatisticheSquadra s in classifica)
             {
                 string nome = s.NomeSquadra != null ? s.NomeSquadra : string.Empty;
-                if (nome.Length > 15)
-                {
-                    nome = nome.Substring(0, 15);
-                }
-                Console.WriteLine($"{nome,-15} | {s.Punti,-3} | {s.Giocate,-3} | {s.Vinte,-3} | {s.Pareggiate,-3} | {s.Perse,-3} | {s.GolFatti,-3} | {s.GolSubiti,-3} | {s.DifferenzaReti,-3}");
+
+                Console.WriteLine($"{nome} | {s.Punti} | {s.Giocate} | {s.Vinte} | {s.Pareggiate} | {s.Perse} | {s.GolFatti} | {s.GolSubiti} | {s.DifferenzaReti}");
             }
         }
 
@@ -259,7 +256,7 @@ namespace Campionato
             IReadOnlyList<Partita> elenco = repository.GetElenco();
             if (elenco.Count == 0)
             {
-                Console.WriteLine("L'archivio è vuoto.");
+                Console.WriteLine("L'archivio è vuoto");
                 return;
             }
 

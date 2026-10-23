@@ -11,13 +11,13 @@ namespace Campionato
         public override string Descrizione()
         {
             string baseDesc = base.Descrizione();
-            return $"[FINALE] {baseDesc}";
+            return $"FINALE {baseDesc}";
         }
 
         public int PuntiRankingStorico(string squadra)
         {
             string vincitore = CalcolaVincitore();
-            if (string.Equals(squadra, vincitore, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(squadra, vincitore))
             {
                 return 6;
             }
